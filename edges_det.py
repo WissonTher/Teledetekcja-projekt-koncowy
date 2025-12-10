@@ -34,7 +34,6 @@ def przygotowanie_obrazu(bands, total_mask):
 
     return obraz_norm
 
-
 def simple_thresholding(image, threshold):
     """
     Proste progowanie zastosowane do siły gradientu, jak to już wcześniej było w Sobelu, ale rozdzielone
@@ -42,7 +41,6 @@ def simple_thresholding(image, threshold):
     edges = np.zeros_like(image, dtype=np.uint8)
     edges[image >= threshold] = 255
     return edges
-
 
 def sobel_i_hough(obraz_norm):
     """
@@ -64,13 +62,12 @@ def sobel_i_hough(obraz_norm):
     # Krawędzie daej są grube, ponieważ Sobel wykrywa krawędź na kilku pikselach - JAK ZMNIEJSZYĆ KRAWĘDZIE!
     edges_final = simple_thresholding(gradient_mag_norm, SINGLE_THRESHOLD)
 
-    # 3. Transformacja Hougha (Detekcja Geometrii)
+    # Transformacja Hougha (Detekcja Geometrii)
     # Ze względu na grube krawędzie, Hough prawdopodobnie będzie generował wiele fałszywych pozytywów...
-
-    # Detekcja Dróg
+    # 1. Detekcja Dróg
     h_space_lines, angle_lines, dist_lines = hough_line(edges_final)
 
-    # Detekcja Rond
+    # 2. Detekcja Rond
     min_radius = 5
     max_radius = 50
     hough_radii = np.arange(min_radius, max_radius)
@@ -91,8 +88,7 @@ def sobel_i_hough(obraz_norm):
     return edges_final, h_space_lines, accum, cx, cy, radii
 
 """ if __name__ == '__main__':
-    # UWAGA: Poniższa ścieżka musi być dostosowana do Twojego środowiska!
-    sciezka_do_rastra = R"C:\Users\HP\Downloads\grupa_13.tif"
+    sciezka_do_rastra = R"C:\Users\HP\izabe\Downloads\grupa_13.tif"
 
     bands_data = wczytaj_pasma(sciezka_do_rastra)
 
@@ -111,10 +107,8 @@ def sobel_i_hough(obraz_norm):
 
         print(f"Detekcja geometrii zakończona (Wykryto {len(cx)} okręgów powyżej progu {HOUGH_CIRCLE_THRESHOLD * 100}%).")
 
-        # --- Wizualizacja Wyników ---
         fig, axes = plt.subplots(1, 3, figsize=(18, 6))
 
-        # Obraz Wejściowy (Red z maską)
         axes[0].imshow(obraz_do_analyzy, cmap='gray')
         axes[0].set_title('1. Zamaskowane i znormalizowane pasmo RED')
 
