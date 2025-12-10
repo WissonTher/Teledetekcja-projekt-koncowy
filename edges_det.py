@@ -87,6 +87,7 @@ def sobel_i_hough(obraz_norm):
 
     return edges_final, h_space_lines, accum, cx, cy, radii
 
+
 """ if __name__ == '__main__':
     sciezka_do_rastra = R"C:\Users\HP\izabe\Downloads\grupa_13.tif"
 
